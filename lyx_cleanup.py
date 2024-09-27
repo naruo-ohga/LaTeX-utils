@@ -36,7 +36,7 @@ for ord1 in ordinaries:
         tex = re.sub('(' + ord1 + r')\n(' + ord2 + ')', r'\1 \2', tex)
 
 # Rewrite ref
-tex = re.sub(r'\(\\ref\{(.+?)\}\)', r'\eqref{\1}', tex)
+tex = re.sub(r'\(\\ref\{(.+?)\}\)', r'\\eqref{\1}', tex)
 
 # Write the cleaned up tex file
 with open(tex_file, "w") as f:
