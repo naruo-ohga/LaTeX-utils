@@ -59,9 +59,9 @@ regex = {'math':   r'\$.*?\$',
          'ref':    r'\\ref\{.*?\}',
          '~cite':  r'~\\cite\{.*?\}',
          'cite':   r'\\cite\{.*?\}',
-         'env,':   r'\\begin\{(.*?)\}(?:(?!\\begin|\\end)[\s\S])*,(?:(?!\\begin|\\end)[^,\.])*\\end\{\1\}',
-         'env.':   r'\\begin\{(.*?)\}(?:(?!\\begin|\\end)[\s\S])*\.(?:(?!\\begin|\\end)[^,\.])*\\end\{\1\}',
-         'env':    r'\\begin\{(.*?)\}(?:(?!\\begin|\\end)[\s\S])*\\end\{\1\}',
+         'env,':   r'\\begin\{(equation|align|alignat|gather)\}(?:(?!\\end\{\1\})[\s\S])*,(?:(?!\\end\{\1\})[^,\.])*\\end\{\1\}',
+         'env.':   r'\\begin\{(equation|align|alignat|gather)\}(?:(?!\\end\{\1\})[\s\S])*\.(?:(?!\\end\{\1\})[^,\.])*\\end\{\1\}',
+         'env':    r'\\begin\{(equation|align|alignat|gather)\}(?:(?!\\end\{\1\})[\s\S])*\\end\{\1\}',
         }
 
 assert(set(subtext.keys()) == set(regex.keys()))
