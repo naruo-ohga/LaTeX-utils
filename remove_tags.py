@@ -4,11 +4,11 @@ import sys
 import itertools
 
 
-splitter = [r'\\begin\{document\}', r'\\section\{.*?\}', r'\\subsection\{.*?\}', r'\\subsubsection\{.*?\}', r'\\paragraph\{.*?\}', r'\\subparagraph\{.*?\}']
+splitter = [r'\\begin\{document\}', r'\\section\{.*?$', r'\\subsection\{.*?$', r'\\subsubsection\{.*?$', r'\\paragraph\{.*?$', r'\\subparagraph\{.*?$']
 
 def split_sections(tex):
     splitter_regex = "(" + "|".join(splitter) + ")"
-    sections_regex = re.split(splitter_regex, tex)
+    sections_regex = re.split(splitter_regex, tex, flags=re.MULTILINE)
 
     titles = []
     sections = []
@@ -16,7 +16,7 @@ def split_sections(tex):
     current_section = ""
     
     for sec in sections_regex:
-        if re.fullmatch(splitter_regex, sec) is not None:
+        if re.fullmatch(splitter_regex, sec, flags=re.MULTILINE) is not None:
             # Save the section
             if current_section:
                 titles.append(current_title)
@@ -28,7 +28,7 @@ def split_sections(tex):
         else:
             current_section += sec
 
-    if current_section:
+    if current_section: # Save the last section
         titles.append(current_title)
         sections.append(current_section)
 
@@ -89,10 +89,19 @@ if mode == "remove":
     titles, sections = split_sections(tex)
 
     # Open output files
+    # If the files already exist, give a warning
+    if os.path.exists(record_file) or os.path.exists(stripped_file):
+        print("Warning: output files already exist. Do you want to overwrite them? (y/n)")
+        ans = input()
+        if ans != "y":
+            sys.exit(1)
+
     f_stripped = open(stripped_file, "w")
     f_record = open(record_file, "w")
 
     for title, sec in zip(titles, sections):
+        print(f"===== {title} =====")
+
         # Replace the tags with the subtext
         record = {}
         for key in subtext.keys():
