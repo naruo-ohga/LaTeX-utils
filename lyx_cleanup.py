@@ -35,6 +35,17 @@ for ord1 in ordinaries:
     for ord2 in ordinaries:
         tex = re.sub('(' + ord1 + r')\n(' + ord2 + ')', r'\1 \2', tex)
 
+# Simplify {[} and {]}
+tex = re.sub(r'\{\[\}', r'[', tex)
+tex = re.sub(r'\{\]\}', r']', tex)
+
+# Change def to newcommand
+tex = re.sub(r'\\global\\long\\def\\(\w+)\{(.+?)\}%', r'\\newcommand{\\\1}{\2}', tex)
+tex = re.sub(r'\\global\\long\\def\\(\w+)#1\{(.+?)\}%', r'\\newcommand{\\\1}[1]{\2}', tex)
+tex = re.sub(r'\\global\\long\\def\\(\w+)#1#2\{(.+?)\}%', r'\\newcommand{\\\1}[2]{\2}', tex)
+tex = re.sub(r'\\global\\long\\def\\(\w+)#1#2#3\{(.+?)\}%', r'\\newcommand{\\\1}[3]{\2}', tex)
+tex = re.sub(r'\\global\\long\\def\\(\w+)#1#2#3#4\{(.+?)\}%', r'\\newcommand{\\\1}[4]{\2}', tex)
+
 # Rewrite ref
 tex = re.sub(r'\(\\ref\{([^\{\}]+?)\}\)', r'\\eqref{\1}', tex)
 
