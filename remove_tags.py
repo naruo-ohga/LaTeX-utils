@@ -40,12 +40,15 @@ def split_sections(tex):
 
 
 
+# 'matheq': "'X = Y'",
+# 'matheq':   r'\$[^\$]*?=[^\$]*?\$',  
+
 subtext = {'math':   "'X'",
-           '~eqref': "~(57)",
+           '~eqref': " (57)",
            'eqref':  "(58)",
-           '~ref':   "~(59)",
+           '~ref':   " (59)",
            'ref':    "(60)",
-           '~cite':  "~[61]",
+           '~cite':  " [61]",
            'cite':   "[62]",
            'env,':   '"ENVIRONMENT,"',
            'env.':   '"ENVIRONMENT."',

@@ -28,6 +28,7 @@ tex = re.sub(r'=  =', r'==', tex)
 # Insert linebreaks
 tex = re.sub(r'([^\n])\\label', r'\1\n\\label', tex)
 tex = re.sub(r'([^\n])\\caption', r'\1\n\\caption', tex)
+tex = re.sub(r'([^\n])\\nonumber', r'\1\n\\nonumber', tex)
 
 # Remove unnecessary linebreaks
 ordinaries = [r'\w', ',', r'\.', ';', ':', '!', r'\?', r'\$', r'\(', r'\)']
