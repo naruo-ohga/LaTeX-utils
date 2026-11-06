@@ -30,11 +30,21 @@ tex = re.sub(r'([^\n])\\label', r'\1\n\\label', tex)
 tex = re.sub(r'([^\n])\\caption', r'\1\n\\caption', tex)
 tex = re.sub(r'([^\n])\\nonumber', r'\1\n\\nonumber', tex)
 
+# Remove trailing spaces
+tex = re.sub(r' +$', '', tex, flags=re.MULTILINE)
+
 # Remove unnecessary linebreaks
-ordinaries = [r'\w', ',', r'\.', ';', ':', '!', r'\?', r'\$', r'\(', r'\)']
+ordinaries = [r'\w', ' ', ',', r'\.', ';', ':', '!', r'\?', r'\$', r'\(', r'\)']
 for ord1 in ordinaries:
     for ord2 in ordinaries:
         tex = re.sub('(' + ord1 + r')\n(' + ord2 + ')', r'\1 \2', tex)
+
+# Insert linebreaks
+ord_ends = ['[a-z0-9]', r'\\@', r'\$', r'\)', r'\]', r'\}']
+ord_starts = ['[A-Za-z0-9]', r'\$', r'\(', r'\[', r'\{']
+for ord1 in ord_ends:
+    for ord2 in ord_starts:
+        tex = re.sub('(' + ord1 + r'\.) (' + ord2 + ')', r'\1\n\2', tex)
 
 # Simplify {[} and {]}
 tex = re.sub(r'\{\[\}', r'[', tex)
@@ -46,6 +56,9 @@ tex = re.sub(r'\\global\\long\\def\\(\w+)#1\{(.+?)\}%', r'\\newcommand{\\\1}[1]{
 tex = re.sub(r'\\global\\long\\def\\(\w+)#1#2\{(.+?)\}%', r'\\newcommand{\\\1}[2]{\2}', tex)
 tex = re.sub(r'\\global\\long\\def\\(\w+)#1#2#3\{(.+?)\}%', r'\\newcommand{\\\1}[3]{\2}', tex)
 tex = re.sub(r'\\global\\long\\def\\(\w+)#1#2#3#4\{(.+?)\}%', r'\\newcommand{\\\1}[4]{\2}', tex)
+
+# Change citet to cite
+tex = re.sub(r'\\citet', r'\\cite', tex)
 
 # Rewrite ref
 tex = re.sub(r'\(\\ref\{([^\{\}]+?)\}\)', r'\\eqref{\1}', tex)
